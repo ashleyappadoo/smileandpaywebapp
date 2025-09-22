@@ -2,7 +2,11 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 
-API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
+#API DEV
+#API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
+
+#API PROD
+https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb_PROD
 
 st.title("Test API Smile&Pay - Parcours Complet")
 
