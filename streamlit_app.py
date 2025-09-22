@@ -3,23 +3,23 @@ import requests
 from bs4 import BeautifulSoup
 
 #API DEV
-#API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
+API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
 
 #API PROD
-API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb_PROD"
+#API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb_PROD"
 
 st.title("Test API Smile&Pay - Parcours Complet")
 
 # Formulaire utilisateur
-ilot = st.text_input("Ilot", "026279")
-vendeur = st.text_input("Vendeur", "026279.aappadoo")
+ilot = st.text_input("Ilot", "000123")
+vendeur = st.text_input("Vendeur", "000123.vendeur")
 amount = st.number_input("Montant (centimes)", min_value=1, value=100)
 private_data = st.text_input("Private Data", "orderId=ABCD-1234")
 
 url_success = st.text_input("URL Success", "https://merchant.example/success")
 url_error = st.text_input("URL Error", "https://merchant.example/error")
 url_refused = st.text_input("URL Refused", "https://merchant.example/refused")
-url_cancel = st.text_input("URL Cancel", "https://hook.eu2.make.com/ry8pjf4dhv5w36a4fb6v6gvx4hyh1wmi")
+url_cancel = st.text_input("URL Cancel", "https://merchant.example/refused")
 
 if st.button("Lancer paiement"):
     payload = {
