@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+import os
 
 API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
 
@@ -9,7 +10,10 @@ st.set_page_config(layout="wide")
 # Logo et titre
 col_logo, col_title = st.columns([1, 5])
 with col_logo:
-    st.image("logosp.jpg", width=80)
+    if os.path.exists("logosp.jpg"):
+        st.image("logosp.jpg", width=80)
+    else:
+        st.warning("Logo introuvable : placez 'logosp.jpg' à la racine du repo")
 with col_title:
     st.title("Test API WEB PAY - Smile and Pay")
 
@@ -55,6 +59,13 @@ with col1:
             if form:
                 st.session_state.action_url = form.get("action")
                 st.session_state.form_inputs = {i.get("name"): i.get("value") for i in form.find_all("input")}
+
+            # Sauvegarde du fichier HTML généré
+            with open("payment.html", "w", encoding="utf-8") as f:
+                f.write(st.session_state.html_response)
+
+            st.success("Fichier payment.html généré avec succès")
+            st.markdown("<a href='payment.html' target='_blank'>👉 Ouvrir la page de paiement générée</a>", unsafe_allow_html=True)
         else:
             st.error(f"Erreur {response.status_code}: {response.text}")
 
@@ -67,10 +78,6 @@ if st.session_state.form_inputs:
     st.subheader("Formulaire extrait")
     st.write("**Action URL:**", st.session_state.action_url)
     st.json(st.session_state.form_inputs)
-
-    with col2:
-        st.subheader("Page de paiement Nepting (HTML généré)")
-        st.components.v1.html(st.session_state.html_response, height=600, scrolling=True)
 
     # Simulation interne des callbacks
     st.subheader("Simulation callbacks (back)")
