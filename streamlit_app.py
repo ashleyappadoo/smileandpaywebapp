@@ -33,7 +33,7 @@ st.markdown(
     body {margin-top: 70px;}
     </style>
     <div class="fixed-header">
-        <img src="logo smile and pay.jpg">
+        <img src="logosp.jpg">
         <h1>Test API WEB PAY - Smile and Pay</h1>
     </div>
     """,
