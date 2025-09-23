@@ -1,44 +1,23 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+import os
 
 API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
 
 st.set_page_config(layout="wide")
 
-# Header fixe avec logo et titre
-st.markdown(
-    """
-    <style>
-    .fixed-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #0E1117;
-        padding: 10px;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-    }
-    .fixed-header img {
-        height: 50px;
-        margin-right: 15px;
-    }
-    .fixed-header h1 {
-        color: white;
-        font-size: 24px;
-        margin: 0;
-    }
-    body {margin-top: 70px;}
-    </style>
-    <div class="fixed-header">
-        <img src="logosp.jpg">
-        <h1>Test API WEB PAY - Smile and Pay</h1>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# Vérifie si le logo existe à la racine
+logo_path = "logosp.jpg"
+
+col_logo, col_title = st.columns([1, 5])
+with col_logo:
+    if os.path.exists(logo_path):
+        st.image(logo_path, width=80)
+    else:
+        st.warning("Logo introuvable : placez 'logosp.jpg' à la racine du repo (même dossier que streamlit_app.py)")
+with col_title:
+    st.title("Test API WEB PAY - Smile and Pay")
 
 # Stockage de l'état pour éviter le reset
 if "html_response" not in st.session_state:
