@@ -6,7 +6,39 @@ API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymen
 
 st.set_page_config(layout="wide")
 
-st.title("Test API Smile&Pay - Parcours Complet")
+# Header fixe avec logo et titre
+st.markdown(
+    """
+    <style>
+    .fixed-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #0E1117;
+        padding: 10px;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+    }
+    .fixed-header img {
+        height: 50px;
+        margin-right: 15px;
+    }
+    .fixed-header h1 {
+        color: white;
+        font-size: 24px;
+        margin: 0;
+    }
+    body {margin-top: 70px;}
+    </style>
+    <div class="fixed-header">
+        <img src="logo smile and pay.jpg">
+        <h1>Test API WEB PAY - Smile and Pay</h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Stockage de l'état pour éviter le reset
 if "html_response" not in st.session_state:
@@ -65,8 +97,8 @@ if st.session_state.form_inputs:
 
     with col2:
         st.subheader("Page de paiement Nepting")
-        st.info("⚠️ L’iframe peut être bloquée (X-Frame-Options). Ouvrez le lien dans un nouvel onglet si besoin.")
-        st.markdown(f"[Accéder à la page de paiement]({st.session_state.action_url})", unsafe_allow_html=True)
+        st.info("⚠️ L’iframe est bloquée par Nepting (X-Frame-Options). Utilisez le lien ci-dessous pour ouvrir la page dans un nouvel onglet.")
+        st.markdown(f"<a href='{st.session_state.action_url}' target='_blank'>👉 Ouvrir la page de paiement Nepting</a>", unsafe_allow_html=True)
 
     # Simulation interne des callbacks
     st.subheader("Simulation callbacks (back)")
