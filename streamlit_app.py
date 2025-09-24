@@ -66,50 +66,59 @@ with col1:
 
 with col2:
     if st.session_state.html_response:
-        st.subheader("Télécharger la page de paiement générée")
-        st.download_button(
-            label="💾 Télécharger payment.html",
-            data=st.session_state.html_response,
-            file_name="payment.html",
-            mime="text/html"
-        )
+        # Bloc encadré téléchargement
+        with st.container():
+            st.subheader("Télécharger la page de paiement générée")
+            st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir sur votre PC.")
+            st.download_button(
+                label="💾 Télécharger payment.html",
+                data=st.session_state.html_response,
+                file_name="payment.html",
+                mime="text/html"
+            )
 
-    if st.session_state.html_response:
+        # Séparation
+        st.markdown("---")
+
         st.subheader("Réponse HTML de l’API")
         st.code(st.session_state.html_response, language="html")
 
     if st.session_state.form_inputs:
-        st.subheader("Formulaire extrait")
-        st.write("**Action URL:**", st.session_state.action_url)
+        st.subheader("Extrait formulaire Nepting")
         st.json(st.session_state.form_inputs)
 
-        # Simulation callbacks
-        st.subheader("Simulation callbacks (back)")
-        callback_type = st.selectbox("Simuler un retour", ["Success", "Error", "Refused", "Cancel"])
+        # Bloc encadré simulation callbacks
+        with st.container():
+            st.subheader("Simulation callbacks (back)")
+            callback_type = st.selectbox("Simuler un retour", ["Success", "Error", "Refused", "Cancel"])
 
-        if st.button("Exécuter simulation callback"):
-            simulated_post = {
-                "nep_Result": callback_type,
-                "nep_TransactionID": st.session_state.form_inputs.get("nep_TransactionID", "TEST123"),
-                "nep_MerchantID": st.session_state.form_inputs.get("nep_MerchantID", "SMILEPAY_TEST"),
-                "nep_Amount": st.session_state.form_inputs.get("nep_Amount", str(amount)),
-                "nep_APIVersion": "03.12",
-                "nep_MerchantPrivateData": private_data
-            }
+            if st.button("Exécuter simulation callback"):
+                simulated_post = {
+                    "nep_Result": callback_type,
+                    "nep_TransactionID": st.session_state.form_inputs.get("nep_TransactionID", "TEST123"),
+                    "nep_MerchantID": st.session_state.form_inputs.get("nep_MerchantID", "SMILEPAY_TEST"),
+                    "nep_Amount": st.session_state.form_inputs.get("nep_Amount", str(amount)),
+                    "nep_APIVersion": "03.12",
+                    "nep_MerchantPrivateData": private_data
+                }
 
-            if callback_type == "Success":
-                target_url = url_success
-            elif callback_type == "Error":
-                target_url = url_error
-            elif callback_type == "Refused":
-                target_url = url_refused
-            else:
-                target_url = url_cancel
+                if callback_type == "Success":
+                    target_url = url_success
+                elif callback_type == "Error":
+                    target_url = url_error
+                elif callback_type == "Refused":
+                    target_url = url_refused
+                else:
+                    target_url = url_cancel
 
-            try:
-                resp = requests.post(target_url, data=simulated_post, headers={"Content-Type": "application/x-www-form-urlencoded"})
-                st.write(f"Callback simulé envoyé vers {target_url} :")
-                st.json(simulated_post)
-                st.success(f"Réponse du webhook ({resp.status_code}): {resp.text}")
-            except Exception as e:
-                st.error(f"Erreur lors de l'envoi du callback : {e}")
+                try:
+                    resp = requests.post(
+                        target_url,
+                        data=simulated_post,
+                        headers={"Content-Type": "application/x-www-form-urlencoded"}
+                    )
+                    st.write(f"Callback simulé envoyé vers {target_url} :")
+                    st.json(simulated_post)
+                    st.success(f"Réponse du webhook ({resp.status_code}): {resp.text}")
+                except Exception as e:
+                    st.error(f"Erreur lors de l'envoi du callback : {e}")
