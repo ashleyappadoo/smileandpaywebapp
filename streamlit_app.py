@@ -17,7 +17,7 @@ with col_logo:
 with col_title:
     st.title("Test API WEB PAY - Smile and Pay")
 
-# Stockage de l'état pour éviter le reset
+# Stockage de l'état
 if "html_response" not in st.session_state:
     st.session_state.html_response = None
 if "form_inputs" not in st.session_state:
@@ -60,52 +60,56 @@ with col1:
                 st.session_state.action_url = form.get("action")
                 st.session_state.form_inputs = {i.get("name"): i.get("value") for i in form.find_all("input")}
 
-            # Sauvegarde du fichier HTML généré
-            with open("payment.html", "w", encoding="utf-8") as f:
-                f.write(st.session_state.html_response)
-
-            st.success("Fichier payment.html généré avec succès")
-            st.markdown("<a href='payment.html' target='_blank'>👉 Ouvrir la page de paiement générée</a>", unsafe_allow_html=True)
+            st.success("Réponse HTML générée avec succès")
         else:
             st.error(f"Erreur {response.status_code}: {response.text}")
 
-# Affichage du HTML et du formulaire extrait
-if st.session_state.html_response:
-    st.subheader("Réponse HTML de l’API")
-    st.code(st.session_state.html_response, language="html")
+with col2:
+    if st.session_state.html_response:
+        st.subheader("Télécharger la page de paiement générée")
+        st.download_button(
+            label="💾 Télécharger payment.html",
+            data=st.session_state.html_response,
+            file_name="payment.html",
+            mime="text/html"
+        )
 
-if st.session_state.form_inputs:
-    st.subheader("Formulaire extrait")
-    st.write("**Action URL:**", st.session_state.action_url)
-    st.json(st.session_state.form_inputs)
+    if st.session_state.html_response:
+        st.subheader("Réponse HTML de l’API")
+        st.code(st.session_state.html_response, language="html")
 
-    # Simulation interne des callbacks
-    st.subheader("Simulation callbacks (back)")
-    callback_type = st.selectbox("Simuler un retour", ["Success", "Error", "Refused", "Cancel"])
+    if st.session_state.form_inputs:
+        st.subheader("Formulaire extrait")
+        st.write("**Action URL:**", st.session_state.action_url)
+        st.json(st.session_state.form_inputs)
 
-    if st.button("Exécuter simulation callback"):
-        simulated_post = {
-            "nep_Result": callback_type,
-            "nep_TransactionID": st.session_state.form_inputs.get("nep_TransactionID", "TEST123"),
-            "nep_MerchantID": st.session_state.form_inputs.get("nep_MerchantID", "SMILEPAY_TEST"),
-            "nep_Amount": st.session_state.form_inputs.get("nep_Amount", str(amount)),
-            "nep_APIVersion": "03.12",
-            "nep_MerchantPrivateData": private_data
-        }
+        # Simulation callbacks
+        st.subheader("Simulation callbacks (back)")
+        callback_type = st.selectbox("Simuler un retour", ["Success", "Error", "Refused", "Cancel"])
 
-        if callback_type == "Success":
-            target_url = url_success
-        elif callback_type == "Error":
-            target_url = url_error
-        elif callback_type == "Refused":
-            target_url = url_refused
-        else:
-            target_url = url_cancel
+        if st.button("Exécuter simulation callback"):
+            simulated_post = {
+                "nep_Result": callback_type,
+                "nep_TransactionID": st.session_state.form_inputs.get("nep_TransactionID", "TEST123"),
+                "nep_MerchantID": st.session_state.form_inputs.get("nep_MerchantID", "SMILEPAY_TEST"),
+                "nep_Amount": st.session_state.form_inputs.get("nep_Amount", str(amount)),
+                "nep_APIVersion": "03.12",
+                "nep_MerchantPrivateData": private_data
+            }
 
-        try:
-            resp = requests.post(target_url, data=simulated_post, headers={"Content-Type": "application/x-www-form-urlencoded"})
-            st.write(f"Callback simulé envoyé vers {target_url} :")
-            st.json(simulated_post)
-            st.success(f"Réponse du webhook ({resp.status_code}): {resp.text}")
-        except Exception as e:
-            st.error(f"Erreur lors de l'envoi du callback : {e}")
+            if callback_type == "Success":
+                target_url = url_success
+            elif callback_type == "Error":
+                target_url = url_error
+            elif callback_type == "Refused":
+                target_url = url_refused
+            else:
+                target_url = url_cancel
+
+            try:
+                resp = requests.post(target_url, data=simulated_post, headers={"Content-Type": "application/x-www-form-urlencoded"})
+                st.write(f"Callback simulé envoyé vers {target_url} :")
+                st.json(simulated_post)
+                st.success(f"Réponse du webhook ({resp.status_code}): {resp.text}")
+            except Exception as e:
+                st.error(f"Erreur lors de l'envoi du callback : {e}")
