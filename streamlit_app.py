@@ -69,9 +69,9 @@ with col2:
         # Bloc encadré téléchargement
         with st.container():
             st.subheader("Télécharger la page de paiement générée")
-            st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir sur votre PC.")
+            st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir l'interface de paiement. Simule la page de paiement")
             st.download_button(
-                label="💾 Télécharger payment.html",
+                label="💾 Télécharger",
                 data=st.session_state.html_response,
                 file_name="payment.html",
                 mime="text/html"
