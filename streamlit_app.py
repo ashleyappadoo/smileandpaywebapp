@@ -28,6 +28,12 @@ if "action_url" not in st.session_state:
 # Formulaire utilisateur
 col1, col2 = st.columns([2, 3])
 with col1:
+    # Lien vers la doc Postman au-dessus du formulaire
+    st.markdown(
+        "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
+        unsafe_allow_html=True
+    )
+
     ilot = st.text_input("Ilot", "026279")
     vendeur = st.text_input("Vendeur", "026279.aappadoo")
     amount = st.number_input("Montant (centimes)", min_value=1, value=100)
@@ -37,6 +43,7 @@ with col1:
     url_error = st.text_input("URL Error", "https://hook.eu2.make.com/gfmk9t9xmqq8j4ekum6cdgbtwtnv18ab")
     url_refused = st.text_input("URL Refused", "https://hook.eu2.make.com/llzdi8cqv4sd9n2fzqj4w85yq6khig9t")
     url_cancel = st.text_input("URL Cancel", "https://hook.eu2.make.com/iq9azdcvqxgieczm7r79t27ok35cetvy")
+
 
     if st.button("Lancer paiement"):
         payload = {
@@ -63,16 +70,6 @@ with col1:
                 }
 
             st.success("Réponse HTML générée avec succès")
-            # Ajout d'une iframe pour afficher la doc Postman
-            st.markdown(
-                f"""
-                <iframe src="https://documenter.getpostman.com/view/43527348/2sB3B7PEDS"
-                        width="100%" height="600px" style="border:1px solid #ccc; border-radius:8px;">
-                </iframe>
-                """,
-                unsafe_allow_html=True
-            )
-
         else:
             st.error(f"Erreur {response.status_code}: {response.text}")
 
