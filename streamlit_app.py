@@ -63,6 +63,16 @@ with col1:
                 }
 
             st.success("Réponse HTML générée avec succès")
+            # Ajout d'une iframe pour afficher la doc Postman
+            st.markdown(
+                f"""
+                <iframe src="https://documenter.getpostman.com/view/43527348/2sB3B7PEDS"
+                        width="100%" height="600px" style="border:1px solid #ccc; border-radius:8px;">
+                </iframe>
+                """,
+                unsafe_allow_html=True
+            )
+
         else:
             st.error(f"Erreur {response.status_code}: {response.text}")
 
