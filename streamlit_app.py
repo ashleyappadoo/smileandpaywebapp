@@ -80,7 +80,7 @@ with col2:
             st.subheader("Télécharger la page de paiement générée")
             st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir sur votre PC.")
             st.download_button(
-                label="💾 Télécharger payment.html",
+                label="💾 Télécharger page paiement",
                 data=st.session_state.html_response,
                 file_name="payment.html",
                 mime="text/html"
