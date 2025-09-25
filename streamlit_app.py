@@ -58,7 +58,9 @@ with col1:
             form = soup.find("form")
             if form:
                 st.session_state.action_url = form.get("action")
-                st.session_state.form_inputs = {i.get("name"): i.get("value") for i in form.find_all("input")}
+                st.session_state.form_inputs = {
+                    i.get("name"): i.get("value") for i in form.find_all("input")
+                }
 
             st.success("Réponse HTML générée avec succès")
         else:
@@ -66,12 +68,12 @@ with col1:
 
 with col2:
     if st.session_state.html_response:
-        # Bloc encadré téléchargement
+        # Bloc téléchargement
         with st.container():
             st.subheader("Télécharger la page de paiement générée")
-            st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir l'interface de paiement. Simule la page de paiement")
+            st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir sur votre PC.")
             st.download_button(
-                label="💾 Télécharger",
+                label="💾 Télécharger payment.html",
                 data=st.session_state.html_response,
                 file_name="payment.html",
                 mime="text/html"
@@ -84,41 +86,17 @@ with col2:
         st.code(st.session_state.html_response, language="html")
 
     if st.session_state.form_inputs:
-        st.subheader("Extrait formulaire Nepting")
-        st.json(st.session_state.form_inputs)
+        st.subheader("Formulaire Nepting (entrée)")
+        st.info("⚠️ Ceci correspond uniquement aux données envoyées pour ouvrir la page de paiement. "
+                "Le résultat du paiement (Succès / Annulé / Refusé / Erreur) sera renvoyé plus tard via le webhook.")
 
-        # Bloc encadré simulation callbacks
-        with st.container():
-            st.subheader("Simulation callbacks (back)")
-            callback_type = st.selectbox("Simuler un retour", ["Success", "Error", "Refused", "Cancel"])
-
-            if st.button("Exécuter simulation callback"):
-                simulated_post = {
-                    "nep_Result": callback_type,
-                    "nep_TransactionID": st.session_state.form_inputs.get("nep_TransactionID", "TEST123"),
-                    "nep_MerchantID": st.session_state.form_inputs.get("nep_MerchantID", "SMILEPAY_TEST"),
-                    "nep_Amount": st.session_state.form_inputs.get("nep_Amount", str(amount)),
-                    "nep_APIVersion": "03.12",
-                    "nep_MerchantPrivateData": private_data
-                }
-
-                if callback_type == "Success":
-                    target_url = url_success
-                elif callback_type == "Error":
-                    target_url = url_error
-                elif callback_type == "Refused":
-                    target_url = url_refused
-                else:
-                    target_url = url_cancel
-
-                try:
-                    resp = requests.post(
-                        target_url,
-                        data=simulated_post,
-                        headers={"Content-Type": "application/x-www-form-urlencoded"}
-                    )
-                    st.write(f"Callback simulé envoyé vers {target_url} :")
-                    st.json(simulated_post)
-                    st.success(f"Réponse du webhook ({resp.status_code}): {resp.text}")
-                except Exception as e:
-                    st.error(f"Erreur lors de l'envoi du callback : {e}")
+        entree = {
+            k: v for k, v in st.session_state.form_inputs.items()
+            if k.startswith("nep_") and not k in [
+                "nep_Result", "nep_ExtendedResult",
+                "nep_Ticket", "nep_AuthorizationCode",
+                "nep_CardToken", "nep_MaskedPan",
+                "nep_EndOfValidity"
+            ]
+        }
+        st.json(entree)
