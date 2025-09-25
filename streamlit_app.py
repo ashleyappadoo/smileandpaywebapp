@@ -88,7 +88,7 @@ with col2:
     if st.session_state.form_inputs:
         st.subheader("Formulaire Nepting (entrée)")
         st.info("⚠️ Ceci correspond uniquement aux données envoyées pour ouvrir la page de paiement. "
-                "Le résultat du paiement (Succès / Annulé / Refusé / Erreur) sera renvoyé plus tard via le webhook.")
+                "Le résultat du paiement (Succès / Annulé / Refusé / Erreur) sera renvoyé via le webhook.")
 
         entree = {
             k: v for k, v in st.session_state.form_inputs.items()
