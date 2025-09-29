@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-#API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
+API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1"
 
 st.set_page_config(layout="wide")
 
@@ -29,10 +29,10 @@ if "action_url" not in st.session_state:
 col1, col2 = st.columns([2, 3])
 with col1:
     # Lien vers la doc Postman au-dessus du formulaire
-    st.markdown(
-        "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
+    #st.markdown(
+    #    "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
         unsafe_allow_html=True
-    )
+    #)
 
     ilot = st.text_input("N° client", "026279")
     vendeur = st.text_input("Vendeur", "026279.nom_client")
