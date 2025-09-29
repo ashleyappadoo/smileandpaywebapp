@@ -34,15 +34,15 @@ with col1:
         unsafe_allow_html=True
     )
 
-    ilot = st.text_input("Ilot", "026279")
-    vendeur = st.text_input("Vendeur", "026279.aappadoo")
+    ilot = st.text_input("N° client", "026279")
+    vendeur = st.text_input("Vendeur", "026279.nom_client")
     amount = st.number_input("Montant (centimes)", min_value=1, value=100)
-    private_data = st.text_input("Private Data", "orderId=ABCD-1234")
+    private_data = st.text_input("Private Data", "Saisie d'une description ou Id")
 
-    url_success = st.text_input("URL Success", "https://hook.eu2.make.com/ry8pjf4dhv5w36a4fb6v6gvx4hyh1wmi")
-    url_error = st.text_input("URL Error", "https://hook.eu2.make.com/gfmk9t9xmqq8j4ekum6cdgbtwtnv18ab")
-    url_refused = st.text_input("URL Refused", "https://hook.eu2.make.com/llzdi8cqv4sd9n2fzqj4w85yq6khig9t")
-    url_cancel = st.text_input("URL Cancel", "https://hook.eu2.make.com/iq9azdcvqxgieczm7r79t27ok35cetvy")
+    url_success = st.text_input("URL Success", "Saisie de votre URL")
+    url_error = st.text_input("URL Error", "Saisie de votre URL")
+    url_refused = st.text_input("URL Refused", "Saisie de votre URL")
+    url_cancel = st.text_input("URL Cancel", "Saisie de votre URL")
 
 
     if st.button("Lancer paiement"):
