@@ -29,10 +29,11 @@ if "action_url" not in st.session_state:
 col1, col2 = st.columns([2, 3])
 with col1:
     # Lien vers la doc Postman au-dessus du formulaire
-    #st.markdown(
-    #    "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
+    st.markdown(
+        #"[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
+        "Documentation API à venir",
         unsafe_allow_html=True
-    #)
+    )
 
     ilot = st.text_input("N° client", "026279")
     vendeur = st.text_input("Vendeur", "026279.nom_client")
