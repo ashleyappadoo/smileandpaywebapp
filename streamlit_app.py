@@ -28,23 +28,15 @@ if "action_url" not in st.session_state:
 # Formulaire utilisateur
 col1, col2 = st.columns([2, 3])
 with col1:
-    # Lien vers la doc Postman au-dessus du formulaire
-    st.markdown(
-        #"[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3B7PEDS)",
-        "Documentation API à venir",
-        unsafe_allow_html=True
-    )
-
-    ilot = st.text_input("N° client", "026279")
-    vendeur = st.text_input("Vendeur", "026279.nom_client")
+    ilot = st.text_input("Ilot", "026279")
+    vendeur = st.text_input("Vendeur", "026279.aappadoo")
     amount = st.number_input("Montant (centimes)", min_value=1, value=100)
-    private_data = st.text_input("Private Data", "Saisie d'une description ou Id")
+    private_data = st.text_input("Private Data", "orderId=ABCD-1234")
 
-    url_success = st.text_input("URL Success", "Saisie de votre URL")
-    url_error = st.text_input("URL Error", "Saisie de votre URL")
-    url_refused = st.text_input("URL Refused", "Saisie de votre URL")
+    url_success = st.text_input("URL Success", "https://hook.eu2.make.com/ry8pjf4dhv5w36a4fb6v6gvx4hyh1wmi")
+    url_error = st.text_input("URL Error", "https://hook.eu2.make.com/gfmk9t9xmqq8j4ekum6cdgbtwtnv18ab")
+    url_refused = st.text_input("URL Refused", "https://hook.eu2.make.com/llzdi8cqv4sd9n2fzqj4w85yq6khig9t")
     url_cancel = st.text_input("URL Cancel", "https://hook.eu2.make.com/iq9azdcvqxgieczm7r79t27ok35cetvy")
-
 
     if st.button("Lancer paiement"):
         payload = {
@@ -81,7 +73,7 @@ with col2:
             st.subheader("Télécharger la page de paiement générée")
             st.info("Cliquez pour récupérer le fichier HTML et l’ouvrir sur votre PC.")
             st.download_button(
-                label="💾 Télécharger page paiement",
+                label="💾 Télécharger payment.html",
                 data=st.session_state.html_response,
                 file_name="payment.html",
                 mime="text/html"
