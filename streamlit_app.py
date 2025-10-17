@@ -33,7 +33,7 @@ with col1:
         "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3QQHSSx)",
         unsafe_allow_html=True
     )
-    ilot = st.text_input("Ilot", "Numéro client : 010000")
+    ilot = st.text_input("N° de compte", "Numéro client : 010000")
     vendeur = st.text_input("Vendeur", "Compte vendeur : 010000.identifiant")
     amount = st.number_input("Montant (centimes)", min_value=1, value=100)
     private_data = st.text_input("Private Data", "orderId=ABCD-1234")
