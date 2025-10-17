@@ -28,6 +28,11 @@ if "action_url" not in st.session_state:
 # Formulaire utilisateur
 col1, col2 = st.columns([2, 3])
 with col1:
+    # Lien vers la doc Postman au-dessus du formulaire
+    st.markdown(
+        "[📖 Consulter la documentation API (Postman)](https://documenter.getpostman.com/view/43527348/2sB3QQHSSx)",
+        unsafe_allow_html=True
+    )
     ilot = st.text_input("Ilot", "Numéro client : 010000")
     vendeur = st.text_input("Vendeur", "Compte vendeur : 010000.identifiant")
     amount = st.number_input("Montant (centimes)", min_value=1, value=100)
