@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1_PROD"
+API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/paymentWeb_V2_PROD"
 
 st.set_page_config(layout="wide")
 
@@ -42,6 +42,7 @@ with col1:
     url_error = st.text_input("URL Error", "Saissisez votre url")
     url_refused = st.text_input("URL Refused", "Saissisez votre url")
     url_cancel = st.text_input("URL Cancel", "Saissisez votre url")
+    merchantName = st.text_input("merchantName")
 
     if st.button("Lancer paiement"):
         payload = {
@@ -52,7 +53,8 @@ with col1:
             "urlSuccess": url_success,
             "urlError": url_error,
             "urlRefused": url_refused,
-            "urlCancel": url_cancel
+            "urlCancel": url_cancel,
+            "merchantName": merchant
         }
 
         response = requests.post(API_URL, json=payload)
