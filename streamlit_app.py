@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/paymentWeb_V1_PROD"
+API_URL = "https://europe-west1-smileandpay-1d455.cloudfunctions.net/test_paymentWeb-1_PROD"
 
 st.set_page_config(layout="wide")
 
