@@ -1,0 +1,1 @@
+"use client";import {useState} from "react";export default function PayMobile({id}){const [busy,setBusy]=useState(false);return <button className="btn" disabled={busy} onClick={()=>{setBusy(true);localStorage.setItem("snp_last_order",id);location.href="/api/payment/init?order="+id}}>{busy?"Ouverture…":"Payer 0,30 €"}</button>}
