@@ -1,10 +1,3 @@
-export async function POST(request) {
-  let payload = {};
-  try {
-    payload = await request.json();
-  } catch {}
-
-  console.log("Smile & Pay Web Pay callback", JSON.stringify(payload));
-
-  return Response.json({ received: true }, { status: 200 });
-}
+import {patchOrder} from "../../../../lib/store";
+function finalStatus(p){const raw=String(p.status||p.state||p.paymentStatus||p.result||"").toLowerCase();if(/success|paid|accept|approved|succeed/.test(raw))return "paid";if(/refus|declin|reject/.test(raw))return "refused";if(/cancel|abandon/.test(raw))return "cancelled";if(/error|fail/.test(raw))return "error";return p.paidAt?"paid":"callback_received"}
+export async function POST(req){let p={};try{p=await req.json()}catch{};console.log("Smile & Pay callback",JSON.stringify(p));const m=String(p.description||"").match(/^DEMO:([^:]+):/);if(m)await patchOrder(m[1],{status:finalStatus(p),callback:p,transRef:p.transRef||null,paidAt:p.paidAt||null});return Response.json({received:true},{status:200})}
