@@ -1,5 +1,0 @@
-import {NextResponse} from "next/server";
-const amounts={"ecommerce":10,"click-collect":20,"qrcode":30};
-export async function GET(req){const u=new URL(req.url);const usecase=u.searchParams.get("usecase")||"ecommerce";const amount=amounts[usecase]||10;const endpoint=process.env.SNP_EPAY_ENDPOINT;
-if(!endpoint)return NextResponse.redirect(new URL("/payment/error?reason=configuration&amount="+amount+"&usecase="+usecase,req.url));
-try{const r=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json",...(process.env.SNP_EPAY_API_KEY?{"Authorization":"Bearer "+process.env.SNP_EPAY_API_KEY}:{})},body:JSON.stringify({amount,usecase,reference:"DEMO-"+Date.now()})});const type=r.headers.get("content-type")||"";if(type.includes("text/html")){return new Response(await r.text(),{status:r.status,headers:{"content-type":"text/html; charset=utf-8"}})}const data=await r.json();const url=data.url||data.paymentUrl||data.redirectUrl;if(url)return NextResponse.redirect(url);return NextResponse.json(data,{status:r.status})}catch(e){return NextResponse.redirect(new URL("/payment/error?reason=api",req.url))}}

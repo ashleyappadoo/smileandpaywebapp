@@ -1,1 +1,0 @@
-export async function POST(req){let payload;const type=req.headers.get("content-type")||"";try{payload=type.includes("application/json")?await req.json():Object.fromEntries((await req.formData()).entries())}catch{payload={}};console.log("SNP EPay callback",JSON.stringify(payload));return Response.json({received:true})}
