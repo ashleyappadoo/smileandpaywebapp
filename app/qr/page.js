@@ -1,0 +1,1 @@
+import QrDemo from "./QrDemo";export default function Page(){return <main className="wrap"><header className="top"><a className="brand" href="/"><span className="mark">S</span> Demo Restaurant</a><span className="pill">QR CODE</span></header><QrDemo/><a className="backlink" href="/">← Retour aux cas d'usage</a></main>}
