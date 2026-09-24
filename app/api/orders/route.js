@@ -1,0 +1,2 @@
+import {putOrder} from "../../../lib/store";
+export async function POST(req){const b=await req.json();const allowed={ecommerce:10,"click-collect":20,qrcode:30};if(!(b.usecase in allowed))return Response.json({error:"usecase"},{status:400});const id=crypto.randomUUID().slice(0,8);const o={id,usecase:b.usecase,amount:allowed[b.usecase],status:"created",createdAt:new Date().toISOString()};await putOrder(o);return Response.json(o)}
