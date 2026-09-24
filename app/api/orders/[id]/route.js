@@ -1,0 +1,2 @@
+import {getOrder} from "../../../../lib/store";
+export async function GET(req,{params}){const {id}=await params;const o=await getOrder(id);return o?Response.json(o):Response.json({error:"not_found"},{status:404})}
