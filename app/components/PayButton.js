@@ -1,0 +1,2 @@
+"use client";import {useState} from "react";
+export default function PayButton({usecase,label="Payer"}){const [busy,setBusy]=useState(false);async function go(){setBusy(true);const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({usecase})});const o=await r.json();localStorage.setItem("snp_last_order",o.id);location.href="/api/payment/init?order="+o.id}return <button className="btn" disabled={busy} onClick={go}>{busy?"Préparation…":label}</button>}
