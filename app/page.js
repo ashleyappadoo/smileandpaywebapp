@@ -1,7 +1,7 @@
 const demos = [
-  { n:"01", title:"E-commerce", text:"Achat d'un produit sur une boutique en ligne.", price:"0,10 €", usecase:"ecommerce" },
-  { n:"02", title:"Click & Collect", text:"Commande en ligne puis retrait sur place.", price:"0,20 €", usecase:"click-collect" },
-  { n:"03", title:"QR Code", text:"Paiement à table depuis un QR Code.", price:"0,30 €", usecase:"qrcode" }
+  { n:"01", title:"E-commerce", text:"Achat d'un produit sur une boutique en ligne.", usecase:"ecommerce" },
+  { n:"02", title:"Click & Collect", text:"Commande en ligne puis retrait sur place.", usecase:"click-collect" },
+  { n:"03", title:"QR Code", text:"Paiement à table depuis un QR Code.", usecase:"qrcode" }
 ];
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       </header>
       <section className="hero">
         <div className="eyebrow">API PAIEMENT À DISTANCE</div>
-        <h1>3 parcours.<br/>Un seul paiement Web.</h1>
+        <h1>Les cas d'usages de l'API paiement Web</h1>
         <p>Démonstration des principaux parcours d'intégration du paiement Web Smile & Pay.</p>
       </section>
       <section className="grid">
@@ -22,8 +22,9 @@ export default function Home() {
             <span className="num">{d.n}</span>
             <h2>{d.title}</h2>
             <p>{d.text}</p>
-            <div className="price">{d.price}</div>
-            <a className="btn" href={"/api/payment/init?usecase="+d.usecase}>Payer {d.price}</a>
+            <a className="btn" href={"/api/payment/init?usecase="+d.usecase}>
+              {d.usecase === "ecommerce" ? "Ouvrir la boutique" : d.usecase === "click-collect" ? "Commander" : "Ouvrir le paiement"}
+            </a>
           </article>
         ))}
       </section>
