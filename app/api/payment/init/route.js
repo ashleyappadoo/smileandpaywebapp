@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-const demos={ecommerce:{amount:10,description:"DEMO ECOMMERCE"},"click-collect":{amount:20,description:"DEMO CLICK AND COLLECT"},qrcode:{amount:30,description:"DEMO QR CODE"}};
+const demos={ecommerce:{amount:100,description:"DEMO ECOMMERCE"},"click-collect":{amount:200,description:"DEMO CLICK AND COLLECT"},qrcode:{amount:300,description:"DEMO QR CODE"}};
 export async function GET(request){
   const u=new URL(request.url);
   const usecase=u.searchParams.get("usecase");
